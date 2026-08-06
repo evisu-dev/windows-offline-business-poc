@@ -26,7 +26,7 @@
 <div class="form-group">
     <label for="status">ステータス <span style="color:#dc2626">*</span></label>
     <select id="status" name="status" required>
-        @foreach(\App\Http\Controllers\WorkOrderController::STATUSES as $s)
+        @foreach(\App\Models\WorkOrder::STATUSES as $s)
             <option value="{{ $s }}" @selected(old('status', $workOrder->status ?? '未着手') === $s)>{{ $s }}</option>
         @endforeach
     </select>

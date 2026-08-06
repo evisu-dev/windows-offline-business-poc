@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WorkOrder extends Model
 {
+    public const STATUSES = ['未着手', '進行中', '完了', 'キャンセル'];
+
     protected $fillable = [
         'customer_id',
         'title',

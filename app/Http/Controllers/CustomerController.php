@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
@@ -21,17 +21,9 @@ class CustomerController extends Controller
         return view('customers.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreCustomerRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255',
-            'address' => 'nullable|string|max:1000',
-            'note' => 'nullable|string|max:2000',
-        ]);
-
-        Customer::create($validated);
+        Customer::create($request->validated());
 
         return redirect()->route('customers.index')
             ->with('status', '顧客を登録しました。');
@@ -42,17 +34,9 @@ class CustomerController extends Controller
         return view('customers.edit', compact('customer'));
     }
 
-    public function update(Request $request, Customer $customer): RedirectResponse
+    public function update(StoreCustomerRequest $request, Customer $customer): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255',
-            'address' => 'nullable|string|max:1000',
-            'note' => 'nullable|string|max:2000',
-        ]);
-
-        $customer->update($validated);
+        $customer->update($request->validated());
 
         return redirect()->route('customers.index')
             ->with('status', '顧客情報を更新しました。');

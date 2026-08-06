@@ -1,0 +1,9 @@
+collected_at_jst=2026-08-06T17:06:48+0900
+macos=26.5.2
+architecture=arm64
+php=8.4.2
+node=v22.23.2
+npm=10.9.8
+composer=Composer version 2.7.2 2024-03-11 17:12:18
+git=git version 2.50.1 (Apple Git-155)
+xcode_clt=/Applications/Xcode.app/Contents/Developer

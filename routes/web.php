@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\WorkOrderController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +23,6 @@ Route::post('/write-test', function (): RedirectResponse {
 
     return redirect('/')->with('status', 'SQLiteへの書き込みに成功しました。');
 });
+
+Route::resource('customers', CustomerController::class)->except(['show']);
+Route::resource('work_orders', WorkOrderController::class)->except(['show']);

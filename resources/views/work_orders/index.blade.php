@@ -3,7 +3,10 @@
 @section('content')
 <div class="header-row">
     <h1>受注一覧</h1>
-    <a href="{{ route('work_orders.create') }}" class="btn btn--primary">新規登録</a>
+    <div class="actions">
+        <a href="{{ route('work_orders.export_csv') }}" class="btn btn--secondary">CSV出力</a>
+        <a href="{{ route('work_orders.create') }}" class="btn btn--primary">新規登録</a>
+    </div>
 </div>
 
 @if($workOrders->isEmpty())
@@ -39,6 +42,7 @@
             <td>{{ $workOrder->due_date?->format('Y-m-d') ?? '-' }}</td>
             <td>
                 <div class="actions">
+                    <a href="{{ route('work_orders.export_pdf', $workOrder) }}" class="btn btn--secondary btn--sm">PDF</a>
                     <a href="{{ route('work_orders.edit', $workOrder) }}" class="btn btn--secondary btn--sm">編集</a>
                     <form method="post" action="{{ route('work_orders.destroy', $workOrder) }}" onsubmit="return confirm('削除しますか？')">
                         @csrf

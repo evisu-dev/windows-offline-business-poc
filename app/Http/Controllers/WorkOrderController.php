@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\WorkOrder;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class WorkOrderController extends Controller
 {
@@ -69,5 +72,43 @@ class WorkOrderController extends Controller
 
         return redirect()->route('work_orders.index')
             ->with('status', '受注を削除しました。');
+    }
+
+    public function exportCsv(): StreamedResponse
+    {
+        $workOrders = WorkOrder::with('customer')->orderBy('id')->get();
+
+        return response()->streamDownload(function () use ($workOrders): void {
+            $handle = fopen('php://output', 'w');
+
+            // BOM付きUTF-8（Excel対応）
+            fwrite($handle, "\xEF\xBB\xBF");
+
+            fputcsv($handle, ['ID', '顧客名', '件名', 'ステータス', '納期', '登録日']);
+
+            foreach ($workOrders as $workOrder) {
+                fputcsv($handle, [
+                    $workOrder->id,
+                    $workOrder->customer->name,
+                    $workOrder->title,
+                    $workOrder->status,
+                    $workOrder->due_date?->format('Y-m-d') ?? '',
+                    $workOrder->created_at->format('Y-m-d'),
+                ]);
+            }
+
+            fclose($handle);
+        }, 'work_orders_' . date('Ymd') . '.csv', [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
+    }
+
+    public function exportPdf(WorkOrder $workOrder): Response
+    {
+        $workOrder->load('customer');
+
+        $pdf = Pdf::loadView('work_orders.pdf', compact('workOrder'));
+
+        return $pdf->download('work_order_' . $workOrder->id . '.pdf');
     }
 }

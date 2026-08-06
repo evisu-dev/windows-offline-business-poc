@@ -26,3 +26,5 @@ Route::post('/write-test', function (): RedirectResponse {
 
 Route::resource('customers', CustomerController::class)->except(['show']);
 Route::resource('work_orders', WorkOrderController::class)->except(['show']);
+Route::get('work_orders/export/csv', [WorkOrderController::class, 'exportCsv'])->name('work_orders.export_csv');
+Route::get('work_orders/{work_order}/pdf', [WorkOrderController::class, 'exportPdf'])->name('work_orders.export_pdf');

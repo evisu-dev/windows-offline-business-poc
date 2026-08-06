@@ -8,11 +8,13 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class WorkOrderController extends Controller
 {
+    public const STATUSES = ['未着手', '進行中', '完了', 'キャンセル'];
     public function index(): View
     {
         $workOrders = WorkOrder::with('customer')->orderBy('id', 'desc')->get();
@@ -33,7 +35,7 @@ class WorkOrderController extends Controller
             'customer_id' => 'required|exists:customers,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:5000',
-            'status' => 'required|string|max:50',
+            'status' => ['required', 'string', Rule::in(self::STATUSES)],
             'due_date' => 'nullable|date',
         ]);
 
@@ -56,7 +58,7 @@ class WorkOrderController extends Controller
             'customer_id' => 'required|exists:customers,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:5000',
-            'status' => 'required|string|max:50',
+            'status' => ['required', 'string', Rule::in(self::STATUSES)],
             'due_date' => 'nullable|date',
         ]);
 

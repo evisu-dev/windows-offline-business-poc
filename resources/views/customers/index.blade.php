@@ -32,7 +32,7 @@
                     <form method="post" action="{{ route('customers.destroy', $customer) }}" onsubmit="return confirm('削除しますか？')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn--danger btn--sm">削除</button>
+                        <button type="submit" class="btn btn--danger btn--sm" aria-label="{{ $customer->name }}を削除">削除</button>
                     </form>
                 </div>
             </td>

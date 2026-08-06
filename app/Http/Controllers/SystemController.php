@@ -18,22 +18,10 @@ class SystemController extends Controller
             'laravelVersion' => app()->version(),
             'dbDriver' => config('database.default'),
             'dbPath' => $dbPath,
-            'dbSize' => file_exists($dbPath) ? $this->formatBytes(filesize($dbPath)) : '-',
+            'dbSize' => file_exists($dbPath) ? format_bytes(filesize($dbPath)) : '-',
             'os' => PHP_OS_FAMILY . ' ' . php_uname('r'),
             'updaterEnabled' => config('nativephp.updater.enabled') ? 'はい' : 'いいえ',
             'updaterProvider' => config('nativephp.updater.default', '-'),
         ]);
-    }
-
-    private function formatBytes(int $bytes): string
-    {
-        if ($bytes === 0) {
-            return '0 B';
-        }
-
-        $units = ['B', 'KB', 'MB', 'GB'];
-        $i = (int) floor(log($bytes, 1024));
-
-        return round($bytes / (1024 ** $i), 1) . ' ' . $units[$i];
     }
 }

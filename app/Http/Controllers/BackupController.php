@@ -13,11 +13,11 @@ class BackupController extends Controller
     public function index(): View
     {
         $dbPath = DB::connection()->getDatabaseName();
-        $dbSize = file_exists($dbPath) ? filesize($dbPath) : 0;
+        $dbSize = file_exists($dbPath) ? format_bytes(filesize($dbPath)) : '0 B';
 
         return view('backup.index', [
             'dbPath' => $dbPath,
-            'dbSize' => $this->formatBytes($dbSize),
+            'dbSize' => $dbSize,
         ]);
     }
 
@@ -75,6 +75,16 @@ class BackupController extends Controller
             DB::reconnect();
             DB::table('customers')->count();
             DB::table('work_orders')->count();
+
+            // マイグレーションバージョンの整合性チェック
+            $currentMigrations = collect(DB::select('SELECT migration FROM migrations'))
+                ->pluck('migration')
+                ->sort()
+                ->values();
+
+            if ($currentMigrations->isEmpty()) {
+                throw new \RuntimeException('migrations table is empty or missing');
+            }
         } catch (\Throwable $e) {
             // リストア失敗時はバックアップから復元
             DB::disconnect();
@@ -91,17 +101,5 @@ class BackupController extends Controller
 
         return redirect()->route('backup.index')
             ->with('status', 'データベースを復元しました。');
-    }
-
-    private function formatBytes(int $bytes): string
-    {
-        if ($bytes === 0) {
-            return '0 B';
-        }
-
-        $units = ['B', 'KB', 'MB', 'GB'];
-        $i = (int) floor(log($bytes, 1024));
-
-        return round($bytes / (1024 ** $i), 1) . ' ' . $units[$i];
     }
 }

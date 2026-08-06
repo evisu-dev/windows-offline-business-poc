@@ -47,7 +47,7 @@
                     <form method="post" action="{{ route('work_orders.destroy', $workOrder) }}" onsubmit="return confirm('削除しますか？')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn--danger btn--sm">削除</button>
+                        <button type="submit" class="btn btn--danger btn--sm" aria-label="{{ $workOrder->title }}を削除">削除</button>
                     </form>
                 </div>
             </td>

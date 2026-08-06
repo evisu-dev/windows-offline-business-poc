@@ -47,6 +47,7 @@
         <a href="/" class="brand">Work Order Manager</a>
         <a href="{{ route('customers.index') }}">顧客</a>
         <a href="{{ route('work_orders.index') }}">受注</a>
+        <a href="{{ route('backup.index') }}">バックアップ</a>
     </div>
 </nav>
 <div class="container">

@@ -9,17 +9,17 @@ class PocCheckTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_poc_screen_is_available(): void
+    public function test_dashboard_is_accessible(): void
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('Offline Work Order Manager PoC');
+            ->assertSee('ダッシュボード');
     }
 
-    public function test_sqlite_write_route_adds_a_record(): void
+    public function test_system_page_is_accessible(): void
     {
-        $this->post('/write-test')->assertRedirect('/');
-
-        $this->assertDatabaseCount('poc_checks', 1);
+        $this->get(route('system.index'))
+            ->assertOk()
+            ->assertSee('システム情報');
     }
 }

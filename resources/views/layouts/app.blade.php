@@ -48,6 +48,7 @@
         <a href="{{ route('customers.index') }}">顧客</a>
         <a href="{{ route('work_orders.index') }}">受注</a>
         <a href="{{ route('backup.index') }}">バックアップ</a>
+        <a href="{{ route('system.index') }}">システム</a>
     </div>
 </nav>
 <div class="container">

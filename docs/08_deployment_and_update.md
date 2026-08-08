@@ -15,11 +15,31 @@
 git clone <repository-url>
 cd windows-offline-business-poc
 composer install
-php artisan native:install
+npm install
+
+if (-not (Test-Path .env)) {
+    Copy-Item .env.example .env
+    php artisan key:generate
+}
+
+php artisan migrate --force
+php artisan test
+npm run build
+php artisan native:install --force --no-interaction
 php artisan native:build
 ```
 
-ビルド成果物は `dist/` ディレクトリに生成される。
+ビルド成果物は `nativephp/electron/dist/`（Windows表記: `nativephp\electron\dist`）に生成される。
+
+### 証跡収集
+
+ビルド成功後、以下のスクリプトで証跡を収集する。
+
+```powershell
+.\scripts\collect-build-evidence.ps1
+```
+
+証跡は `evidence/` ディレクトリに出力される。
 
 ## NativePHP設定
 

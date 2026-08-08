@@ -1,26 +1,70 @@
-# Windows業務アプリPoC — フェーズ1実行資料
+# Offline Work Order Manager PoC
 
-作成日: 2026-08-06（JST）
+Windowsインストール型・オフライン業務アプリケーションの技術的成立を検証するPoC。
+
+## 現在の状態
+
+- **Phase1: 合格** (2026-08-08)
+- Laravel / NativePHP Windows正式ビルド成功
+- Windowsインストーラー生成済み (`Offline Work Order Manager-0.1.0-setup.exe`)
+- PHP/Node未導入環境でのインストール・起動確認済み
+- オフライン起動・SQLite永続化確認済み
+- SmartScreen / Windows Defender 問題なし
+- Laravelテスト 28件 / 57アサーション 全成功
+- CRUD / CSV / PDF / バックアップは先行実装済み
+
+## 技術スタック
+
+| 項目 | 技術 |
+|---|---|
+| フレームワーク | Laravel 12.x |
+| PHP | 8.4.x |
+| デスクトップ化 | NativePHP Desktop 2.2.1 |
+| Electron | 38.5.0 |
+| データベース | SQLite |
+| PDF | barryvdh/laravel-dompdf |
+| ビュー | Blade + CSS |
 
 ## 入口
 
-- Macで実装準備を始める: `MAC_SETUP.md`
-- Windowsで正式ビルドを行う: 既存のPowerShellスクリプトを使用
-- 結果記録: `PHASE1_RESULT_TEMPLATE.md`
+- Mac開発環境: `MAC_SETUP.md`
+- Windows開発環境: `scripts/setup-windows.ps1`
+- Phase1結果: `PHASE1_RESULT_TEMPLATE.md`
+- 仕様書: `docs/`
 
 ## スクリプト
 
 ### macOS
 
-- `scripts/preflight-macos.sh`
-- `scripts/bootstrap-phase1-macos.sh`
-- `scripts/collect-macos-evidence.sh`
+- `scripts/preflight-macos.sh` — 前提条件チェック
+- `scripts/bootstrap-phase1-macos.sh` — セットアップ
+- `scripts/collect-macos-evidence.sh` — 証跡収集
 
 ### Windows
 
-- `scripts/bootstrap-phase1.ps1`
-- `scripts/collect-build-evidence.ps1`
+- `scripts/setup-windows.ps1` — 環境セットアップ
+- `scripts/bootstrap-phase1.ps1` — Phase1初期セットアップ
+- `scripts/collect-build-evidence.ps1` — ビルド証跡収集
 
-## 制約
+## Windowsビルド手順
 
-フェーズ1が合格するまで、CRUD、CSV、PDF、バックアップ、更新検証へ進まない。
+```powershell
+$env:Path = "C:\node22\node-v22.16.0-win-x64;C:\php84;" + $env:Path
+composer install
+npm install
+php artisan migrate --force
+php artisan test
+npm run build
+php artisan native:build   # win → x64
+```
+
+成果物: `nativephp\electron\dist\Offline Work Order Manager-0.1.0-setup.exe`
+
+## 次のフェーズ
+
+Phase1合格後に進める項目:
+
+1. 顧客検索・受注検索
+2. 顧客CSV取込/出力
+3. PC間バックアップ・復元
+4. v0.1 → v0.2 更新試験

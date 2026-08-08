@@ -1,0 +1,11 @@
+﻿collected_at_jst=2026-08-08T23:09:59.8945914+09:00
+computer_name=<WINDOWS_BUILD_PC>
+os=Microsoft Windows 11 Home
+os_version=10.0.26200
+architecture=AMD64
+php=8.4.24
+node=v22.16.0
+npm=10.9.2
+composer=Composer version 2.10.2 2026-07-01 11:24:45
+git=git version 2.37.0.windows.1
+laravel=Laravel Framework 12.65.0

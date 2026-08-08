@@ -24,3 +24,5 @@ Homestead.yaml
 Thumbs.db
 semantic-review/
 /storage/fonts/*.json
+/nativephp/
+build-result.txt

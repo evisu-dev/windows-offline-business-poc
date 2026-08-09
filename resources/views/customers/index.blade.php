@@ -3,7 +3,10 @@
 @section('content')
 <div class="header-row">
     <h1>顧客一覧</h1>
-    <a href="{{ route('customers.create') }}" class="btn btn--primary">新規登録</a>
+    <div class="actions">
+        <a href="{{ route('customers.export_csv') }}" class="btn btn--secondary">CSV出力</a>
+        <a href="{{ route('customers.create') }}" class="btn btn--primary">新規登録</a>
+    </div>
 </div>
 
 <form method="get" action="{{ route('customers.index') }}" class="card" style="margin-bottom:16px; display:flex; gap:8px; align-items:flex-end;">

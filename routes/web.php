@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerExportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\WorkOrderController;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', DashboardController::class)->name('dashboard');
 
+Route::get('customers/export/csv', [CustomerExportController::class, 'csv'])->name('customers.export_csv');
 Route::resource('customers', CustomerController::class)->except(['show']);
 
 Route::resource('work_orders', WorkOrderController::class)->except(['show']);

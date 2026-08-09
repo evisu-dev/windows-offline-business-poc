@@ -17,9 +17,9 @@ Route::get('customers/import', [CustomerImportController::class, 'create'])->nam
 Route::post('customers/import', [CustomerImportController::class, 'store'])->name('customers.import_store');
 Route::resource('customers', CustomerController::class)->except(['show']);
 
-Route::resource('work_orders', WorkOrderController::class)->except(['show']);
 Route::get('work_orders/export/csv', [WorkOrderExportController::class, 'csv'])->name('work_orders.export_csv');
 Route::get('work_orders/{work_order}/pdf', [WorkOrderExportController::class, 'pdf'])->name('work_orders.export_pdf');
+Route::resource('work_orders', WorkOrderController::class)->except(['show']);
 
 Route::get('backup', [BackupController::class, 'index'])->name('backup.index');
 Route::get('backup/download', [BackupController::class, 'download'])->name('backup.download');

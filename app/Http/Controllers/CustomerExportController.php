@@ -9,16 +9,14 @@ class CustomerExportController extends Controller
 {
     public function csv(): StreamedResponse
     {
-        $customers = Customer::orderBy('id')->get();
-
-        return response()->streamDownload(function () use ($customers): void {
+        return response()->streamDownload(function (): void {
             $handle = fopen('php://output', 'w');
 
             fwrite($handle, "\xEF\xBB\xBF"); // BOM付きUTF-8
 
             fputcsv($handle, ['名前', '電話番号', 'メール', '住所', '備考']);
 
-            foreach ($customers as $customer) {
+            foreach (Customer::orderBy('id')->cursor() as $customer) {
                 fputcsv($handle, [
                     $customer->name,
                     $customer->phone ?? '',

@@ -11,16 +11,14 @@ class WorkOrderExportController extends Controller
 {
     public function csv(): StreamedResponse
     {
-        $workOrders = WorkOrder::with('customer')->orderBy('id')->get();
-
-        return response()->streamDownload(function () use ($workOrders): void {
+        return response()->streamDownload(function (): void {
             $handle = fopen('php://output', 'w');
 
             fwrite($handle, "\xEF\xBB\xBF"); // BOM付きUTF-8（Excel対応）
 
             fputcsv($handle, ['ID', '顧客名', '件名', 'ステータス', '納期', '登録日']);
 
-            foreach ($workOrders as $workOrder) {
+            foreach (WorkOrder::with('customer')->orderBy('id')->cursor() as $workOrder) {
                 fputcsv($handle, [
                     $workOrder->id,
                     $workOrder->customer->name,

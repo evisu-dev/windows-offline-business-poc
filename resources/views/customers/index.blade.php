@@ -5,6 +5,7 @@
     <h1>顧客一覧</h1>
     <div class="actions">
         <a href="{{ route('customers.export_csv') }}" class="btn btn--secondary">CSV出力</a>
+        <a href="{{ route('customers.import') }}" class="btn btn--secondary">CSV取込</a>
         <a href="{{ route('customers.create') }}" class="btn btn--primary">新規登録</a>
     </div>
 </div>

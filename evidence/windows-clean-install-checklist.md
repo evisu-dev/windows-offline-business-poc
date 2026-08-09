@@ -53,7 +53,7 @@ SHA-256: 567600437E817ABCB9087474526D0AAC87F07A0E4B1ED2F9DE98F757BC9D1DEE
 - [x] 再起動後、顧客データが残っている
 - [x] 再起動後、受注データが残っている
 - [x] 日本語が壊れていない
-- [x] SQLite保存場所: インストール版（AppData配下、厳密パスはVM試験で確定予定）
+- [x] SQLite保存場所: `C:\Users\<user>\AppData\Roaming\offline-work-order-manager\database\database.sqlite`
 
 ## オフライン試験
 
@@ -86,3 +86,5 @@ SHA-256: 567600437E817ABCB9087474526D0AAC87F07A0E4B1ED2F9DE98F757BC9D1DEE
 - Node v10.24.1が残存していたが、アプリはこれに依存しない（v22を要求しない）
 - 完全なNode未導入環境での試験はVM構築時に実施予定（証跡強化目的）
 - Phase1の技術的成立は本試験で確認済み
+- インストール版SQLite実パス: `C:\Users\<user>\AppData\Roaming\offline-work-order-manager\database\database.sqlite` (110,592 bytes)
+- 開発版SQLite: `C:\Users\<user>\AppData\Roaming\offline-work-order-manager-dev\database\database.sqlite`

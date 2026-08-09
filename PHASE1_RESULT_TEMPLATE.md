@@ -30,7 +30,7 @@
 | `native:run` 起動 | 合格 | ウィンドウタイトル「Offline Work Order Manager」確認 |
 | SQLite書き込み | 合格 | 顧客1件・受注1件登録成功 |
 | 再起動後のデータ保持 | 合格 | 再起動後データ保持確認 |
-| SQLite保存場所の確認 | 合格 | `database\nativephp.sqlite`（dev時） |
+| SQLite保存場所の確認 | 合格 | 開発: `database\nativephp.sqlite` / インストール版: `%APPDATA%\offline-work-order-manager\database\database.sqlite` |
 | クリーン環境へのインストール | 合格 | PHP未導入PCでインストーラーから起動成功 |
 | PHP/Node未導入で起動 | 合格 | PHP/Composerなし、Node v10のみ（未使用）で正常起動 |
 | ネットワーク切断状態で起動 | 合格 | Wi-Fi OFF状態で起動・表示・操作すべて正常 |
@@ -60,6 +60,14 @@
 | インストーラーサイズ | 約119MB |
 | SHA-256 | `567600437E817ABCB9087474526D0AAC87F07A0E4B1ED2F9DE98F757BC9D1DEE` |
 | bundled PHP | 証跡スクリプトで直接検出できず（クリーン試験で判定） |
+
+## SQLite保存場所
+
+| 環境 | パス |
+|---|---|
+| 開発 (native:run) | `C:\src\windows-offline-business-poc\database\nativephp.sqlite` |
+| インストール版 | `C:\Users\<user>\AppData\Roaming\offline-work-order-manager\database\database.sqlite` |
+| 開発版AppData | `C:\Users\<user>\AppData\Roaming\offline-work-order-manager-dev\database\database.sqlite` |
 
 ## CRUDへ進む条件
 

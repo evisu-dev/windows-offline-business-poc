@@ -12,7 +12,7 @@
 ### 手順
 
 ```powershell
-git clone <repository-url>
+git clone https://github.com/evisu-dev/windows-offline-business-poc.git
 cd windows-offline-business-poc
 composer install
 npm install
@@ -26,20 +26,20 @@ php artisan migrate --force
 php artisan test
 npm run build
 php artisan native:install --force --no-interaction
-php artisan native:build
+php artisan native:build win
 ```
 
 ビルド成果物は `nativephp/electron/dist/`（Windows表記: `nativephp\electron\dist`）に生成される。
 
 ### 証跡収集
 
-ビルド成功後、以下のスクリプトで証跡を収集する。
+ビルド成功後、以下のスクリプトで環境情報と配布物サマリーを収集する。
 
 ```powershell
-.\scripts\collect-build-evidence.ps1
+.\scripts\collect-build-evidence.ps1 -Label current
 ```
 
-証跡は `evidence/` ディレクトリに出力される。
+証跡は `evidence/` ディレクトリに出力される。PC名やユーザープロファイルの絶対パスは記録しない。
 
 ## NativePHP設定
 
@@ -69,42 +69,25 @@ public function boot(): void
 
 NativePHP Desktop 2.x はElectronの自動更新機能を統合しており、GitHub Releases、S3、DigitalOcean Spacesからの更新配信に対応。
 
-### 設定
+PoCではUpdaterを有効化しておらず、本番運用は検証対象外。
 
-`config/nativephp.php` の `updater` セクションで設定。
+### GitHub Releases を使う場合の設定例
 
-### 本番有効化手順
-
-1. `.env` で `NATIVEPHP_UPDATER_ENABLED=true` に変更
-2. 更新プロバイダーの認証情報を設定
-3. バージョン番号を `NATIVEPHP_APP_VERSION` でインクリメント
-4. ビルドしてリリースをアップロード
-
-### GitHub Releases を使う場合
+公開リポジトリを前提とした例:
 
 ```env
 NATIVEPHP_UPDATER_ENABLED=true
 NATIVEPHP_UPDATER_PROVIDER=github
 GITHUB_REPO=windows-offline-business-poc
 GITHUB_OWNER=evisu-dev
-GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN=
 GITHUB_V_PREFIXED_TAG_NAME=true
-GITHUB_PRIVATE=true
+GITHUB_PRIVATE=false
 GITHUB_CHANNEL=latest
 GITHUB_RELEASE_TYPE=draft
 ```
 
-### 更新フロー
-
-1. 新バージョンをビルド
-2. GitHub Releaseにアップロード（draft → publish）
-3. クライアントアプリが起動時に更新チェック
-4. 更新があればダウンロード・インストール
-
-### 現状
-
-- 開発環境では `NATIVEPHP_UPDATER_ENABLED=false`
-- 本番ビルド時に有効化する設計
+トークン等の秘密値は `.env` にのみ設定し、Gitへcommitしない。
 
 ## NSIS インストーラー設定
 
@@ -136,10 +119,7 @@ Windows向けインストーラーは NSIS を使用:
 
 ### マイグレーション
 
-NativePHP Desktop v2では、本番環境でアプリのversionが変更された場合、
-ユーザーのAppData配下のSQLiteに対してmigrationが自動で試行される。
-
-そのため、リリースごとに `NATIVEPHP_APP_VERSION` を更新する。
+NativePHP Desktop v2では、本番環境でアプリのversionが変更された場合、ユーザーのAppData配下のSQLiteに対してmigrationが試行される。そのため、リリースごとに `NATIVEPHP_APP_VERSION` を更新する。
 
 開発環境のNativePHP SQLiteを更新する場合は:
 
@@ -149,24 +129,10 @@ php artisan native:migrate
 
 を使用する。
 
-### 更新検証手順
-
-1. v0.1.0がインストール済みの環境にデータを作成
-2. v0.2.0のインストーラーで上書きインストール
-3. アプリ起動時にmigrationが自動適用
-4. 既存データが保持されていることを確認
-
 ### 更新検証結果
 
-2026-08-09にWindows 11 Homeホスト環境で
-v0.1.0 → v0.2.0の上書き更新試験を実施し、合格。
+2026-08-09にWindows 11 Homeホスト環境でv0.1.0 → v0.2.0の上書き更新試験を実施し、既存顧客・受注データ保持、新規migration適用、新規データ登録、再起動後保持、オフライン動作を確認した。
 
-確認済み:
-
-- 既存顧客・受注データ保持
-- migration適用
-- v0.2新規データ登録
-- 再起動後データ保持
-- オフライン動作
+検証時点では一時的な独自migration hookを使用していた。その後、NativePHP標準のmigrationライフサイクルへ責務を統一するためhookを削除している。したがって、この証跡は**上書き更新とデータ保持の実測結果**を示すものであり、NativePHP標準migration機構のみを用いた更新試験を別途実施したものではない。
 
 証跡: `evidence/windows-v0.1-to-v0.2-validation.md`

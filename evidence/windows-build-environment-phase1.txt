@@ -1,5 +1,4 @@
-﻿collected_at_jst=2026-08-09T00:08:13.5037832+09:00
-computer_name=<WINDOWS_BUILD_PC>
+collected_at_jst=2026-08-09T00:08:13.5037832+09:00
 os=Microsoft Windows 11 Home
 os_version=10.0.26200
 architecture=AMD64

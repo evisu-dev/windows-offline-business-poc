@@ -1,6 +1,9 @@
 # Offline Work Order Manager PoC
 
-Windowsインストール型・オフライン業務アプリケーションの技術的成立を検証するPoC。
+Windowsインストール型・オフライン業務アプリケーションの技術的成立を検証するPoCです。
+
+> **Note**
+> 本リポジトリは技術検証・ポートフォリオ用途のPoCです。本番運用、業務データ保全、サポート提供を保証するものではありません。
 
 ## 現在の状態
 
@@ -18,16 +21,15 @@ Windowsインストール型・オフライン業務アプリケーションの�
 
 ## PoC判定
 
-主要な技術検証は完了。
+主要な技術検証は完了しています。
 
-バックアップ・復元機能は実装・Windows上で基本動作確認済み。
-別Windows環境へのPC間移行は未検証。
+バックアップ・復元機能は実装し、Windows上で基本動作を確認済みです。一方、別Windows環境へのPC間移行は未検証です。
 
 ## 未実施の追加検証
 
-以下はPoC合格の必須条件から外し、将来の証跡強化項目として延期している。
+以下はPoC合格の必須条件から外し、将来の証跡強化項目として延期しています。
 
-- 完全クリーンWindows VM（PHP/Node/Composer未導入）での追加インストール試験
+- 完全クリーンWindows VM（PHP / Node.js / Composer未導入）での追加インストール試験
 - PC A → PC Bの実機/VM間バックアップ復元試験
 
 ## 技術スタック
@@ -42,42 +44,58 @@ Windowsインストール型・オフライン業務アプリケーションの�
 | PDF | barryvdh/laravel-dompdf |
 | ビュー | Blade + CSS |
 
-## 入口
+## セットアップ / 検証資料
 
 - Mac開発環境: `MAC_SETUP.md`
 - Windows開発環境: `scripts/setup-windows.ps1`
 - Phase1結果: `PHASE1_RESULT_TEMPLATE.md`
+- Phase2 Windows検証: `evidence/windows-phase2-validation.md`
 - v0.1→v0.2更新検証: `evidence/windows-v0.1-to-v0.2-validation.md`
 - クリーン試験: `evidence/windows-clean-install-checklist.md`
 - ビルド成功ログ: `evidence/windows-build-log-success-phase1.txt`
 - 仕様書: `docs/`
 
-## スクリプト
-
-### macOS
-
-- `scripts/preflight-macos.sh` — 前提条件チェック
-- `scripts/collect-macos-evidence.sh` — 証跡収集
-
-### Windows
-
-- `scripts/setup-windows.ps1` — 環境セットアップ
-- `scripts/collect-build-evidence.ps1` — ビルド証跡収集
-
 ## Windowsビルド手順
 
+前提:
+
+- Windows 11 x64
+- PHP 8.4.x
+- Node.js 22.x
+- Composer 2.x
+
 ```powershell
-$env:Path = "C:\node22\node-v22.16.0-win-x64;C:\php84;" + $env:Path
+git clone https://github.com/evisu-dev/windows-offline-business-poc.git
+cd windows-offline-business-poc
+
 composer install
 npm install
+
+if (-not (Test-Path .env)) {
+    Copy-Item .env.example .env
+    php artisan key:generate
+}
+
 php artisan migrate --force
 php artisan test
 npm run build
+php artisan native:install --force --no-interaction
 php artisan native:build win
 ```
 
-成果物: `nativephp\electron\dist\Offline Work Order Manager-0.2.0-setup.exe`
+成果物は `nativephp\electron\dist\` に生成されます。
 
 ## 検証用migration
 
-`database/migrations/2026_08_09_100000_create_poc_schema_checks_table.php` は業務機能ではなく、アプリ更新時のmigration適用を証明するための検証用スキーマ。
+`database/migrations/2026_08_09_100000_create_poc_schema_checks_table.php` は業務機能ではなく、アプリ更新時のmigration適用を確認するための検証用スキーマです。
+
+## 既知の制約
+
+- 別Windows環境へのPC間バックアップ復元は未検証です。
+- 完全なNode.js未導入Windows VMでの追加試験は未実施です。
+- コード署名、自動更新の本番運用、暗号化バックアップはPoC対象外です。
+- Phase1ビルドではNativePHPのSecure app bundleを使用しておらず、ビルドログに `INSECURE BUILD` 警告が記録されています。ソース公開PoCとして扱い、配布用製品としての安全性を主張しません。
+
+## License
+
+MIT License. See `LICENSE`.

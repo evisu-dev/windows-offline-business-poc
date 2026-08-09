@@ -2,12 +2,23 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Proof of concept for an offline Windows business application using Laravel and NativePHP.",
     "keywords": [
         "laravel",
-        "framework"
+        "nativephp",
+        "windows",
+        "sqlite",
+        "offline",
+        "desktop"
     ],
+    "homepage": "https://evisu-works.jp/",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Evisu Works",
+            "homepage": "https://evisu-works.jp/"
+        }
+    ],
     "require": {
         "php": "^8.4",
         "barryvdh/laravel-dompdf": "^3.1",

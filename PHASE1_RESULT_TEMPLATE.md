@@ -26,7 +26,7 @@
 
 | 確認項目 | 結果 | 証跡 |
 |---|---|---|
-| Windows配布物生成 | 合格 | `evidence/windows-build-artifacts-phase1.txt` |
+| Windows配布物生成 | 合格 | `evidence/windows-build-log-success-phase1.txt` |
 | `native:run` 起動 | 合格 | ウィンドウタイトル「Offline Work Order Manager」確認 |
 | SQLite書き込み | 合格 | 顧客1件・受注1件登録成功 |
 | 再起動後のデータ保持 | 合格 | 再起動後データ保持確認 |
@@ -38,22 +38,15 @@
 | SmartScreen・発行元警告記録 | 合格 | 開発PC: 警告なし |
 | ウイルス対策ソフトの挙動 | 合格 | Defender: 問題なし |
 
-### 結果の記入ルール
-
-- `合格` — 期待通りに動作した
-- `不合格` — 期待通りに動作しなかった（詳細を「発生した問題」に記載）
-- `未確認` — まだ検証していない
-
 ### Node.js検証条件の補足
 
-実測条件: システムに旧Node.js v10.24.1が残存する環境で検証。ビルド用Node.js v22は実行環境では使用していない。アプリはシステムNodeに依存せず正常動作することを確認済み。完全Node未導入VM試験は任意の証跡強化項目とし、Phase1合格の必須条件とはしない。
+実測条件ではシステムに旧Node.js v10.24.1が残存していたが、ビルド用Node.js v22は実行環境では使用していない。アプリはシステムNodeに依存せず正常動作することを確認済み。完全Node未導入VM試験は任意の証跡強化項目とし、Phase1合格の必須条件とはしない。
 
 ## 発生した問題
 
-- `native:build` 初回実行時に `composer` コマンドがPATHにないエラー → `composer.bat` 作成で解決
-- `native:build` で `cross-env` が見つからないエラー → electron側に `npm install cross-env --save-dev` で解決
-- ネットワーク回線が遅く、ダウンロード系で長時間かかった（PHP, Node, Electron等）
-- bundled PHP: 証跡スクリプトでは直接検出できず。クリーンWindows試験で配布成立性を判定する。
+- `native:build` 初回実行時に `composer` がPATHにないエラー → `composer.bat` 作成で解決
+- `native:build` で `cross-env` が見つからないエラー → electron側に追加して解決
+- ネットワーク回線が遅く、PHP / Node.js / Electron等のダウンロードに時間を要した
 
 ## ビルド情報
 
@@ -63,22 +56,15 @@
 | インストーラー名 | `Offline Work Order Manager-0.1.0-setup.exe` |
 | インストーラーサイズ | 約119MB |
 | SHA-256 | `567600437E817ABCB9087474526D0AAC87F07A0E4B1ED2F9DE98F757BC9D1DEE` |
-| bundled PHP | 証跡スクリプトで直接検出できず（クリーン試験で判定） |
+| bundled PHP | `php-8.4-x64` のダウンロード・同梱をビルドログで確認 |
 
 ## SQLite保存場所
 
 | 環境 | パス |
 |---|---|
-| 開発 (native:run) | `C:\src\windows-offline-business-poc\database\nativephp.sqlite` |
-| インストール版 | `C:\Users\<user>\AppData\Roaming\offline-work-order-manager\database\database.sqlite` |
-| 開発版AppData | `C:\Users\<user>\AppData\Roaming\offline-work-order-manager-dev\database\database.sqlite` |
-
-## CRUDへ進む条件
-
-- [x] フェーズ1の開発環境項目が合格
-- [x] SQLite保存場所を確認できた
-- [x] ビルド手順が再現可能
-- [x] クリーンWindows試験合格
+| 開発 (`native:run`) | `database\nativephp.sqlite` |
+| インストール版 | `%APPDATA%\offline-work-order-manager\database\database.sqlite` |
+| 開発版AppData | `%APPDATA%\offline-work-order-manager-dev\database\database.sqlite` |
 
 ## 判定
 
@@ -86,4 +72,4 @@
 - Phase2: 合格
 - v0.1→v0.2更新試験: 合格
 - PC間バックアップ復元: 追加検証として延期
-- やらない: コード署名、自動更新本番化、GitHub Releases配信
+- 対象外: コード署名、自動更新本番化、GitHub Releases配信

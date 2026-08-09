@@ -7,8 +7,9 @@ Windowsインストール型・オフライン業務アプリケーションの�
 - **Phase1: 合格** (2026-08-08)
 - Laravel / NativePHP Windows正式ビルド成功
 - Windowsインストーラー生成済み (`Offline Work Order Manager-0.1.0-setup.exe`)
-- PHP未導入環境でのインストール・起動、およびシステムNode.jsへの非依存を確認済み
+- PHP未導入環境でのインストール・起動、およびシステムNode.jsへの非依存を確認済み（VM完全クリーン試験予定）
 - オフライン起動・SQLite永続化確認済み
+- インストール版SQLite: `%APPDATA%\offline-work-order-manager\database\database.sqlite`
 - SmartScreen / Windows Defender 問題なし
 - Laravelテスト 58件 / 158アサーション 全成功
 - CRUD / 受注CSV出力 / PDF / バックアップは先行実装済み
@@ -32,6 +33,8 @@ Windowsインストール型・オフライン業務アプリケーションの�
 - Mac開発環境: `MAC_SETUP.md`
 - Windows開発環境: `scripts/setup-windows.ps1`
 - Phase1結果: `PHASE1_RESULT_TEMPLATE.md`
+- クリーン試験チェックリスト: `evidence/windows-clean-install-checklist.md`
+- ビルド成功ログ: `evidence/windows-build-log-success-phase1.txt`
 - 仕様書: `docs/`
 
 ## スクリプト

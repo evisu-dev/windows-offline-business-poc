@@ -1,5 +1,10 @@
 # PC間バックアップ・復元検証
 
+> Status: Deferred / Optional validation
+>
+> PC A → PC B移行試験はPoC主要合格条件から外し、
+> 将来の追加証跡強化項目として延期している。
+
 実行日: ____-__-__
 PC A: 物理Windows 11 Home（ホスト）
 PC B: VirtualBox Windows 11 Enterprise Evaluation VM

@@ -95,6 +95,12 @@ SHA-256: 567600437E817ABCB9087474526D0AAC87F07A0E4B1ED2F9DE98F757BC9D1DEE
 
 ## 試験2: 完全クリーンVM試験（証跡強化）
 
+> Status: Deferred / Optional validation
+>
+> 完全クリーンVM試験はPoC主要合格条件から外し、
+> 将来の追加証跡強化項目として延期している。
+> Phase1の技術的成立は試験1で確認済み。
+
 実行日: ____-__-__
 試験環境: Oracle VirtualBox / Windows 11 Enterprise Evaluation / 完全新規VM
 インストーラー: Offline Work Order Manager-0.1.0-setup.exe

@@ -46,7 +46,7 @@ php artisan native:build
 ### 基本設定（.env）
 
 ```env
-NATIVEPHP_APP_VERSION=0.1.0
+NATIVEPHP_APP_VERSION=0.2.0
 NATIVEPHP_APP_ID=jp.evisuworks.offlineworkorderpoc
 NATIVEPHP_APP_AUTHOR="Evisu Works"
 NATIVEPHP_APP_DESCRIPTION="Offline Windows business application PoC"
@@ -136,9 +136,18 @@ Windows向けインストーラーは NSIS を使用:
 
 ### マイグレーション
 
-- Laravelのマイグレーション機構を使用
-- アプリ起動時に `php artisan migrate --force` が自動実行される（NativePHP内部）
-- 新バージョンでテーブル追加・カラム追加があっても、既存データを維持したまま適用される
+NativePHP Desktop v2では、本番環境でアプリのversionが変更された場合、
+ユーザーのAppData配下のSQLiteに対してmigrationが自動で試行される。
+
+そのため、リリースごとに `NATIVEPHP_APP_VERSION` を更新する。
+
+開発環境のNativePHP SQLiteを更新する場合は:
+
+```bash
+php artisan native:migrate
+```
+
+を使用する。
 
 ### 更新検証手順
 
@@ -149,4 +158,15 @@ Windows向けインストーラーは NSIS を使用:
 
 ### 更新検証結果
 
-検証証跡: `evidence/windows-v0.1-to-v0.2-validation.md`（VM試験後に作成予定）
+2026-08-09にWindows 11 Homeホスト環境で
+v0.1.0 → v0.2.0の上書き更新試験を実施し、合格。
+
+確認済み:
+
+- 既存顧客・受注データ保持
+- migration適用
+- v0.2新規データ登録
+- 再起動後データ保持
+- オフライン動作
+
+証跡: `evidence/windows-v0.1-to-v0.2-validation.md`

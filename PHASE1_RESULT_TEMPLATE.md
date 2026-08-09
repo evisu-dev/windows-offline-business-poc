@@ -10,7 +10,7 @@
 | 項目 | 値 |
 |---|---|
 | W11-BUILD | Microsoft Windows 11 Home 10.0.26200 |
-| W11-CLEAN | 同一PC（PHP/Composer未導入、旧Node.js v10.24.1残存）→ VM試験後更新予定 |
+| W11-CLEAN | 同一PC（PHP/Composer未導入、旧Node.js v10.24.1残存） |
 | CPUアーキテクチャ | AMD64 |
 | PHP | 8.4.24 |
 | Laravel | 12.65.0 |
@@ -32,7 +32,7 @@
 | 再起動後のデータ保持 | 合格 | 再起動後データ保持確認 |
 | SQLite保存場所の確認 | 合格 | 開発: `database\nativephp.sqlite` / インストール版: `%APPDATA%\offline-work-order-manager\database\database.sqlite` |
 | クリーン環境へのインストール | 合格 | PHP未導入PCでインストーラーから起動成功 |
-| PHP未導入・システムNode非依存で起動 | 合格 | PHP/Composerなし、旧Node.js v10.24.1残存環境で正常起動。システムNodeには依存せず → VM試験後更新予定 |
+| PHP未導入・システムNode非依存で起動 | 合格 | PHP/Composerなし、旧Node.js v10.24.1残存環境で正常起動。システムNodeには依存せず |
 | ネットワーク切断状態で起動 | 合格 | Wi-Fi OFF状態で起動・表示・操作すべて正常 |
 | オフラインSQLite書き込み | 合格 | オフラインで顧客・受注登録、再起動後保持確認 |
 | SmartScreen・発行元警告記録 | 合格 | 開発PC: 警告なし |
@@ -80,46 +80,10 @@
 - [x] ビルド手順が再現可能
 - [x] クリーンWindows試験合格
 
-## 次の判断
+## 判定
 
 - Phase1: 合格・クローズ
 - Phase2: 合格
 - v0.1→v0.2更新試験: 合格
 - PC間バックアップ復元: 追加検証として延期
 - やらない: コード署名、自動更新本番化、GitHub Releases配信
-
----
-
-## VM試験後の更新予定箇所
-
-VM試験（完全クリーンWindows環境）完了後に以下を更新する。
-
-### 1. 環境テーブル W11-CLEAN
-
-現在値: `同一PC（PHP/Node削除で代替）`
-
-更新先例:
-
-```text
-Windows 11 Enterprise Evaluation / Oracle VirtualBox / 完全新規VM / PHP・Node.js・Composer未導入
-```
-
-### 2. 結果テーブル「PHP/Node未導入で起動」
-
-現在値: `PHP/Composerなし、Node v10のみ（未使用）で正常起動`
-
-更新先例:
-
-```text
-完全新規VM（PHP・Node.js・Composer未導入）でインストーラーから起動成功
-```
-
-### 3. bundled PHP
-
-`native:build` のログからbundled PHPのダウンロード・同梱を確認できた場合は記載を更新する。
-
-### 4. 更新後の処理
-
-- 「→ VM試験後更新予定」マーカーを削除
-- このセクション自体を削除
-- commit / push

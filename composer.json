@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "evisu-dev/windows-offline-business-poc",
     "type": "project",
     "description": "Proof of concept for an offline Windows business application using Laravel and NativePHP.",
     "keywords": [

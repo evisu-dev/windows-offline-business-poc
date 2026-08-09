@@ -9,8 +9,43 @@
     </div>
 </div>
 
+<form method="get" action="{{ route('work_orders.index') }}" class="card" style="margin-bottom:16px;">
+    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end;">
+        <div class="form-group" style="margin-bottom:0; flex:1; min-width:150px;">
+            <label for="q">件名で検索</label>
+            <input type="text" id="q" name="q" value="{{ request('q') }}" placeholder="件名を入力">
+        </div>
+        <div class="form-group" style="margin-bottom:0; min-width:120px;">
+            <label for="status">ステータス</label>
+            <select id="status" name="status">
+                <option value="">すべて</option>
+                @foreach(\App\Models\WorkOrder::STATUSES as $s)
+                    <option value="{{ $s }}" @selected(request('status') === $s)>{{ $s }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0; min-width:150px;">
+            <label for="customer_id">顧客</label>
+            <select id="customer_id" name="customer_id">
+                <option value="">すべて</option>
+                @foreach($customers as $customer)
+                    <option value="{{ $customer->id }}" @selected(request('customer_id') == $customer->id)>{{ $customer->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit" class="btn btn--primary">検索</button>
+        @if(request('q') || request('status') || request('customer_id'))
+            <a href="{{ route('work_orders.index') }}" class="btn btn--secondary">クリア</a>
+        @endif
+    </div>
+</form>
+
 @if($workOrders->isEmpty())
-    <p>受注が登録されていません。</p>
+    @if(request('q') || request('status') || request('customer_id'))
+        <p>検索条件に一致する受注がありません。</p>
+    @else
+        <p>受注が登録されていません。</p>
+    @endif
 @else
 <table>
     <thead>

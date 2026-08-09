@@ -6,15 +6,31 @@ use App\Http\Requests\StoreWorkOrderRequest;
 use App\Models\Customer;
 use App\Models\WorkOrder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class WorkOrderController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $workOrders = WorkOrder::with('customer')->orderBy('id', 'desc')->get();
+        $query = WorkOrder::with('customer');
 
-        return view('work_orders.index', compact('workOrders'));
+        if ($request->filled('q')) {
+            $query->where('title', 'like', '%' . $request->string('q')->trim() . '%');
+        }
+
+        if ($request->filled('status') && in_array($request->input('status'), WorkOrder::STATUSES, true)) {
+            $query->where('status', $request->input('status'));
+        }
+
+        if ($request->filled('customer_id')) {
+            $query->where('customer_id', $request->integer('customer_id'));
+        }
+
+        $workOrders = $query->orderBy('id', 'desc')->get();
+        $customers = Customer::orderBy('name')->get();
+
+        return view('work_orders.index', compact('workOrders', 'customers'));
     }
 
     public function create(): View

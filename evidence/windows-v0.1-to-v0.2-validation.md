@@ -1,11 +1,20 @@
 # v0.1.0 → v0.2.0 更新検証
 
 実行日: ____-__-__
-PC: VirtualBox Windows 11 Enterprise Evaluation VM
+PC: Windows 11 Home（ホストPC直接試験、VM断念）
 v0.1 installer: Offline Work Order Manager-0.1.0-setup.exe
 v0.1 SHA-256: 567600437E817ABCB9087474526D0AAC87F07A0E4B1ED2F9DE98F757BC9D1DEE
 v0.2 installer: Offline Work Order Manager-0.2.0-setup.exe
 v0.2 SHA-256: ____
+
+## 試験方式
+
+当初はVirtualBox VM上で実施予定だったが、以下の理由でホストPC直接試験に変更:
+
+- VM環境構築にかかる時間対効果
+- ホストPCで同等の検証が可能（v0.1インストール済み環境が存在）
+
+検証の本質（v0.1既存データがv0.2上書き後も保持されること）はVM/ホスト問わず確認可能。
 
 ## 更新前（v0.1環境）
 
@@ -32,15 +41,12 @@ v0.2 SHA-256: ____
 - [ ] 受注登録完了
 - [ ] データ件数記録: 顧客 __件 / 受注 __件
 
-### VMスナップショット
+## v0.2ビルド
 
-- [ ] スナップショット作成: `01-v0.1-with-data`
-
-## v0.2ビルド（ホスト側）
-
-- [ ] 検証用migration追加
-- [ ] NATIVEPHP_APP_VERSION=0.2.0
-- [ ] php artisan test: __ tests / __ assertions PASSED
+- [x] 検証用migration追加（poc_schema_checks テーブル）
+- [x] 本番migration自動実行ロジック追加（AppServiceProvider）
+- [x] NATIVEPHP_APP_VERSION=0.2.0
+- [x] php artisan test: 58 tests / 158 assertions PASSED
 - [ ] npm run build: 成功
 - [ ] php artisan native:build: 成功
 - [ ] installer名: Offline Work Order Manager-0.2.0-setup.exe
@@ -48,8 +54,6 @@ v0.2 SHA-256: ____
 
 ## v0.2上書きインストール
 
-- [ ] v0.2インストーラーをVMへ転送
-- [ ] SHA-256一致確認
 - [ ] 上書きインストール実行
 - [ ] インストール成功
 - [ ] 既存AppDataが削除されていない
@@ -71,9 +75,9 @@ v0.2 SHA-256: ____
 
 ## migration適用確認
 
-確認方法: ____
+確認方法: システム情報画面でpoc_schema_checksテーブル存在を確認
 
-- [ ] 新規migrationで追加されたテーブル/カラムが存在
+- [ ] poc_schema_checksテーブルが存在
 - [ ] 既存テーブル（customers, work_orders）が正常
 
 ## v0.2新規データ作成
@@ -84,14 +88,13 @@ v0.2 SHA-256: ____
 
 ## 再起動確認
 
-- [ ] VM Windows再起動
-- [ ] アプリ起動
+- [ ] アプリ再起動
 - [ ] v0.1既存データ保持
 - [ ] v0.2新規データ保持
 
 ## オフライン確認
 
-ネットワーク切断方法: VM仮想NIC無効化
+ネットワーク切断方法: Wi-Fi無効化
 
 - [ ] アプリ起動
 - [ ] v0.1既存データ表示

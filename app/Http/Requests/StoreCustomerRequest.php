@@ -13,6 +13,14 @@ class StoreCustomerRequest extends FormRequest
 
     public function rules(): array
     {
+        return self::customerRules();
+    }
+
+    /**
+     * 顧客のバリデーションルール（CSV取込等からも参照可能）。
+     */
+    public static function customerRules(): array
+    {
         return [
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:50',

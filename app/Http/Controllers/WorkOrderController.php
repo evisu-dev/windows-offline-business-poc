@@ -16,8 +16,7 @@ class WorkOrderController extends Controller
         $query = WorkOrder::with('customer');
 
         if ($request->filled('q')) {
-            $escaped = str_replace(['%', '_'], ['\\%', '\\_'], $request->string('q')->trim());
-            $query->where('title', 'like', "%{$escaped}%");
+            $query->where('title', 'like', '%' . escape_like($request->string('q')->trim()) . '%');
         }
 
         if ($request->filled('status') && in_array($request->input('status'), WorkOrder::STATUSES, true)) {

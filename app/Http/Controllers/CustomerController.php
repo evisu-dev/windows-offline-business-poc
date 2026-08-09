@@ -15,8 +15,7 @@ class CustomerController extends Controller
         $query = Customer::query();
 
         if ($request->filled('q')) {
-            $escaped = str_replace(['%', '_'], ['\\%', '\\_'], $request->string('q')->trim());
-            $query->where('name', 'like', "%{$escaped}%");
+            $query->where('name', 'like', '%' . escape_like($request->string('q')->trim()) . '%');
         }
 
         $customers = $query->orderBy('id', 'desc')->get();

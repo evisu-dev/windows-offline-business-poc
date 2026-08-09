@@ -13,3 +13,13 @@ if (!function_exists('format_bytes')) {
         return round($bytes / (1024 ** $i), 1) . ' ' . $units[$i];
     }
 }
+
+if (!function_exists('escape_like')) {
+    /**
+     * LIKE句のワイルドカード文字をエスケープする。
+     */
+    function escape_like(string $value): string
+    {
+        return str_replace(['%', '_'], ['\\%', '\\_'], $value);
+    }
+}

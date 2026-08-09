@@ -10,7 +10,7 @@
 | 項目 | 値 |
 |---|---|
 | W11-BUILD | Microsoft Windows 11 Home 10.0.26200 |
-| W11-CLEAN | 同一PC（PHP/Node削除で代替） |
+| W11-CLEAN | 同一PC（PHP/Composer未導入、旧Node.js v10.24.1残存） |
 | CPUアーキテクチャ | AMD64 |
 | PHP | 8.4.24 |
 | Laravel | 12.65.0 |

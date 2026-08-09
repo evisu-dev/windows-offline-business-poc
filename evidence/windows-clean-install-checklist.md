@@ -84,7 +84,7 @@ SHA-256: 567600437E817ABCB9087474526D0AAC87F07A0E4B1ED2F9DE98F757BC9D1DEE
 備考:
 - PHP 8.4はシステムPATHに存在しない状態で試験（C:\php84はPATH未設定）
 - Node v10.24.1が残存していたが、アプリはこれに依存しない（v22を要求しない）
-- 完全なNode未導入環境での試験はVM構築時に実施予定（証跡強化目的）
+- 完全なNode未導入環境での追加試験は任意の証跡強化項目とし、Phase1合格の必須条件とはしない。将来、NativePHP / Electron更新時の回帰試験や公開証跡の追加強化が必要になった場合に実施する。
 - Phase1の技術的成立は本試験で確認済み
 - インストール版SQLite実パス: `C:\Users\<user>\AppData\Roaming\offline-work-order-manager\database\database.sqlite` (110,592 bytes)
 - 開発版SQLite: `C:\Users\<user>\AppData\Roaming\offline-work-order-manager-dev\database\database.sqlite`

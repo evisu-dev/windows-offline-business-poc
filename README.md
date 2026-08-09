@@ -4,17 +4,18 @@ Windowsインストール型・オフライン業務アプリケーションの�
 
 ## 現在の状態
 
-- **Phase1: 合格** (2026-08-08)
-- Laravel / NativePHP Windows正式ビルド成功
-- Windowsインストーラー生成済み (`Offline Work Order Manager-0.1.0-setup.exe`)
-- PHP未導入環境でのインストール・起動、およびシステムNode.jsへの非依存を確認済み（VM完全クリーン試験予定）
+- **Phase1: 合格**
+- **Phase2: 合格**
+- Windows / NativePHP正式ビルド成功
+- PHP未導入環境でのインストール・起動確認済み
+- システムNode.jsへの非依存を確認済み
 - オフライン起動・SQLite永続化確認済み
 - インストール版SQLite: `%APPDATA%\offline-work-order-manager\database\database.sqlite`
-- SmartScreen / Windows Defender 問題なし
-- Laravelテスト 58件 / 158アサーション 全成功
-- CRUD / 受注CSV出力 / PDF / バックアップは先行実装済み
-- 顧客名検索・受注検索/絞り込み実装済み
-- 顧客CSV取込/出力実装済み
+- 顧客CRUD・検索・CSV取込/出力実装済み
+- 受注CRUD・検索/絞り込み・CSV/PDF出力実装済み
+- Windows Phase2実機検証: 合格
+- v0.1.0 → v0.2.0上書き更新・既存データ保持: 合格
+- Laravelテスト: 58 tests / 158 assertions
 
 ## 技術スタック
 
@@ -33,8 +34,7 @@ Windowsインストール型・オフライン業務アプリケーションの�
 - Mac開発環境: `MAC_SETUP.md`
 - Windows開発環境: `scripts/setup-windows.ps1`
 - Phase1結果: `PHASE1_RESULT_TEMPLATE.md`
-- クリーン試験チェックリスト: `evidence/windows-clean-install-checklist.md`
-- ビルド成功ログ: `evidence/windows-build-log-success-phase1.txt`
+- クリーン試験: `evidence/windows-clean-install-checklist.md`
 - 仕様書: `docs/`
 
 ## スクリプト
@@ -61,11 +61,15 @@ npm run build
 php artisan native:build   # win → x64
 ```
 
-成果物: `nativephp\electron\dist\Offline Work Order Manager-0.1.0-setup.exe`
+成果物: `nativephp\electron\dist\Offline Work Order Manager-0.2.0-setup.exe`
 
-## 次のフェーズ
+## PoC判定
 
-Phase2（検索・CSV）完了後に進める項目:
+主要な技術検証は完了。
 
-1. PC間バックアップ・復元
-2. v0.1 → v0.2 更新試験
+## 未実施の追加検証
+
+以下はPoC合格の必須条件から外し、追加証跡強化項目として延期している。
+
+- 完全なPHP/Node/Composer未導入Windows VMでの追加試験
+- 別Windows環境へのPC間バックアップ復元

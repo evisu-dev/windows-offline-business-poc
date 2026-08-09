@@ -37,13 +37,11 @@ Windowsインストール型・オフライン業務アプリケーションの�
 ### macOS
 
 - `scripts/preflight-macos.sh` — 前提条件チェック
-- `scripts/bootstrap-phase1-macos.sh` — セットアップ
 - `scripts/collect-macos-evidence.sh` — 証跡収集
 
 ### Windows
 
 - `scripts/setup-windows.ps1` — 環境セットアップ
-- `scripts/bootstrap-phase1.ps1` — Phase1初期セットアップ
 - `scripts/collect-build-evidence.ps1` — ビルド証跡収集
 
 ## Windowsビルド手順

@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $customers = Customer::orderBy('id', 'desc')->get();
+        $query = Customer::query();
+
+        if ($request->filled('q')) {
+            $query->where('name', 'like', '%' . $request->string('q')->trim() . '%');
+        }
+
+        $customers = $query->orderBy('id', 'desc')->get();
 
         return view('customers.index', compact('customers'));
     }

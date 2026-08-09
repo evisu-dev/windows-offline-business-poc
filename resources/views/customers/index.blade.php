@@ -6,8 +6,23 @@
     <a href="{{ route('customers.create') }}" class="btn btn--primary">新規登録</a>
 </div>
 
+<form method="get" action="{{ route('customers.index') }}" class="card" style="margin-bottom:16px; display:flex; gap:8px; align-items:flex-end;">
+    <div class="form-group" style="margin-bottom:0; flex:1;">
+        <label for="q">顧客名で検索</label>
+        <input type="text" id="q" name="q" value="{{ request('q') }}" placeholder="顧客名を入力">
+    </div>
+    <button type="submit" class="btn btn--primary">検索</button>
+    @if(request('q'))
+        <a href="{{ route('customers.index') }}" class="btn btn--secondary">クリア</a>
+    @endif
+</form>
+
 @if($customers->isEmpty())
-    <p>顧客が登録されていません。</p>
+    @if(request('q'))
+        <p>検索条件に一致する顧客がありません。</p>
+    @else
+        <p>顧客が登録されていません。</p>
+    @endif
 @else
 <table>
     <thead>
